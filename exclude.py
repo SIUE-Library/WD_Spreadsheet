@@ -2,6 +2,7 @@ import sys
 import csv
 import json
 import re
+import string
 
 #takes a record and returns whether that record should be kept (if parameters are appropriate)
 def shouldKeep(dict):
@@ -26,9 +27,19 @@ csvfile = open(sys.argv[1], 'r')
 
 fieldnames = (csvfile.readline().split(','))
 reader = csv.DictReader( csvfile, fieldnames)
-
+keep = open(sys.argv[1][:-4]+"_keep.csv", 'w')
+keep.write(",".join(fieldnames))
+wd =  open(sys.argv[1][:-4]+"_wd.csv", 'w')
 for line in reader:
     if shouldKeep(line):
     #    line = dict(line)
+        out = ""
         for key in line.keys():
-            print(line[key], end=',')
+            out += str(line[key]) + ","
+        keep.write(out[:-1]+"\n")
+
+    else:
+        out = ""
+        for key in line.keys():
+            out += str(line[key]) + ","
+        wd.write(out[:-1]+"\n")
