@@ -27,10 +27,7 @@ csvfile = open(sys.argv[1], 'r')
 
 fieldnames = (csvfile.readline().split('`'))
 reader = csv.DictReader( csvfile, fieldnames, delimiter="`", quoting=csv.QUOTE_NONE)
-n = 0
-print(n)
-for line in reader:
-    n += 1
+for n, line in enumerate(reader):
     print(n)
     if line["PO_ID"] != "":
         print("po")  #add to _PO.csvfile
