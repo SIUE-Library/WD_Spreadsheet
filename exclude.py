@@ -37,11 +37,17 @@ for line in reader:
     #    dict = dict(dict)
         out = ""
         for key in line.keys():
-            out += str(line[key]) + "`"
+            if key == "ITEM_BARCODE":
+                out += '="'+line[key]+'"' + "`"
+            else:
+                out += str(line[key]) + "`"
         keep.write(out[:-1]+"\n")
 
     else:
         out = ""
         for key in line.keys():
-            out += str(line[key]) + "`"
+            if key == "ITEM_BARCODE":
+                out += '="'+line[key]+'"' + "`"
+            else:
+                out += str(line[key]) + "`"
         wd.write(out[:-1]+"\n")
