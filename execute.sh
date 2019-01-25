@@ -1,6 +1,0 @@
-python3 exclude.py "aastx/$1/aastx_$1_master.csv"
-echo "Finished generating _wd and _keep"
-python3 withdraw.py "aastx/$1/aastx_$1_master_wd.csv"
-echo "Finished generating _1to1, _multi, and _po"
-python3 tabDelineate.py "aastx/$1/aastx_$1_master_wd_1to1.csv" "aastx/$1/aastx_$1_master_wd_multi.csv"
-echo "Completed"
