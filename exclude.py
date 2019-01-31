@@ -7,15 +7,32 @@ import string
 #takes a record and returns whether that record should be kept (if parameters are appropriate)
 def shouldKeep(dict):
     #overloading is used, if string is empty cast will fail so skip that check
-    if (dict['CREATE_DATE'] != "" and int(dict['CREATE_DATE'][-2:]) > 12 and int(dict['CREATE_DATE'][-2:]) < 20):
+    cd = re.match(r'(\d+/\d+/\d+)', dict['CREATE_DATE'])
+    mocd = re.match(r'(\d+\/\d+\/\d+)', dict['MaxOfCHARGE_DATE\n'])
+    ud = re.match(r'(\d+\/\d+\/\d+)', dict['UPDATE_DATE'])
+
+    if cd != None:
+        cd = cd.group()[-4:]
+
+    if mocd != None:
+        mocd = mocd.group()[-4:]
+
+    if ud != None:
+        ud = ud.group()[-4:]
+
+    if (cd != None and int(cd) > 2012 and int(cd) < 2020):
         return True
-    if (dict['MaxOfCHARGE_DATE\n'] != "" and int(dict['MaxOfCHARGE_DATE\n'][-2:]) > 12 and int(dict['MaxOfCHARGE_DATE\n'][-2:]) < 20):
+
+    if (mocd != None and int(mocd) > 2012 and int(mocd) < 2020):
         return True
-    if (dict['UPDATE_DATE'] != "" and int(dict['UPDATE_DATE'][-2:]) > 17 and int(dict['UPDATE_DATE'][-2:]) < 20):
+
+    if (ud != None and int(ud) > 2017 and int(ud) < 2020):
         return True
+
     #BEGIN_PUB_DATE may have corrupted format so regex to only match ints so casting doesn't fail
+    #I've only seen this in the form YYYY or garbled
     bpd = re.match(r'[d.]*', dict['BEGIN_PUB_DATE']).group()
-    if (bpd != "" and int(bpd) > 12 and int(bpd) < 20):
+    if (bpd != "" and int(bpd) > 2012 and int(bpd) < 2020):
         return True
 
 

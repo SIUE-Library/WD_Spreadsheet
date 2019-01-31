@@ -7,7 +7,15 @@ libreoffice --headless --invisible --convert-to csv <input.xlsx> --outdir <place
 <br><br>
 Similarly, output will be in csv that can be converted back to xlsx with:<br>
 libreoffice --headless --invisible --convert-to xlsx <input.csv> --outdir <place to put xlsx>
+<br><br>
+Alternatively, you can open the csv in excel, libreoffice, google sheets, or other spreadsheet software and export/save as a .csv to convert, and then open the open a csv file in excel and save as xlsx to convert back.
 <br>
+Its important the the csv file put into the software is encoded in UTF-8, not ISO-8859-14 or any other ISO.  Csv files exported from excel should be in UTF-8 as long as you open the file in UTF-8 mode, but if you used the libreoffice headless method you should be able to convert to UTF-8 with the command:<br>
+iconv -f <current encoding, usually ISO-8859-14> -t UTF-8 <input file> -o <output file, must be different from input file name>
+<br>
+You can find the encoding of a file with the command:
+file <filename>
+<br><br>
 
 ## Execution
 There are four python files that perform the data transformations.  All are made for python3<br><br>
@@ -29,3 +37,12 @@ tabDelineate.py takes two files and input, the \_1to1 list and the \_multi list.
 <br><br>
 
 As you may have noticed, all of these files output backtick (\`) delineated files rather than csv.  The unBacktick.py file may be used to convert these to csv.  This file takes no arguments but looks at all files in all subfolders in the aastx/ folder.  All such files are parsed in and converted to proper csv.  This overwrites the original files.  This script may fail if there are any files in the aastx/ folder, and may also fail if any of the files in the subfolders don't match the correct format.
+
+
+for file in *.csv; do iconv -f ISO-8859-14 -t UTF-8 $file -o "../csv/originals/$file"; done
+cd ../csv
+for each in originals/*.csv; do python3 ../../exclude.py $each; done
+mv *wd.csv wd
+mv *keep.csv keep
+python3 ../../unBacktick.py keep/
+python3 ../../unBacktick.py wd/
