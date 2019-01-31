@@ -19,7 +19,13 @@ file <filename>
 
 # Quick Start
 To process to just the withdraw and keep list, run exclude.py, passing as input the csv file to check.  This will output two intermediate backtick-delineated text files.  Convert these files to csv one at a time by running unBacktick.py, passing the files as an argument.  These files can be loaded in as additional sheets of the original master.xlsx manually.
-
+<br><br>
+The commands executed in order should be (on Unix, although Windows should be very similar):
+```
+python exclude.py path/to/file.csv
+python unBacktick.py path/to/file_wd.csv
+python unBacktick.py path/to/file_keep.csv
+```
 
 ## Execution
 There are four python files that perform the data transformations.  All are made for python3<br><br>
