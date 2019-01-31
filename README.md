@@ -17,6 +17,10 @@ You can find the encoding of a file with the command:
 file <filename>
 <br><br>
 
+# Quick Start
+To process to just the withdraw and keep list, run exclude.py, passing as input the csv file to check.  This will output two intermediate backtick-delineated text files.  Convert these files to csv one at a time by running unBacktick.py, passing the files as an argument.  These files can be loaded in as additional sheets of the original master.xlsx manually.
+
+
 ## Execution
 There are four python files that perform the data transformations.  All are made for python3<br><br>
 exclude.py should be passed as a command line argument the aastx_?\_master.csv file where ? is the letter you want processed.  The required headers in this csv file are: CREATE_DATE, MaxOfCHARGE_DATE, UPDATE_DATE, BEGIN_PUB_DATE, and ITEM_BARCODE.  The order of these does not matter, nor does it matter if there are any other columns.  The output of this will be two backtick (\`) delineated text files, one containing all of the withdraw items (\_wd) and one containing all keep files (\_keep).
@@ -37,12 +41,3 @@ tabDelineate.py takes two files and input, the \_1to1 list and the \_multi list.
 <br><br>
 
 As you may have noticed, all of these files output backtick (\`) delineated files rather than csv.  The unBacktick.py file may be used to convert these to csv.  This file takes no arguments but looks at all files in all subfolders in the aastx/ folder.  All such files are parsed in and converted to proper csv.  This overwrites the original files.  This script may fail if there are any files in the aastx/ folder, and may also fail if any of the files in the subfolders don't match the correct format.
-
-
-for file in *.csv; do iconv -f ISO-8859-14 -t UTF-8 $file -o "../csv/originals/$file"; done
-cd ../csv
-for each in originals/*.csv; do python3 ../../exclude.py $each; done
-mv *wd.csv wd
-mv *keep.csv keep
-python3 ../../unBacktick.py keep/
-python3 ../../unBacktick.py wd/
